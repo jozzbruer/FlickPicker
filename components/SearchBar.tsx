@@ -12,11 +12,12 @@ import { useContext, useState } from 'react';
 
 const SearchBar: React.FC = () => {
 	const { fetchData, movies } = useContext(AppContext);
-	const [searchValue, setSearchValue] = useState('');
+	const [searchValue, setSearchValue] = useState<string>('');
 
 	const searchHandler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		fetchData(searchValue);
+		setSearchValue('');
 	};
 
 	console.log(movies);

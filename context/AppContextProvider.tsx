@@ -30,6 +30,14 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 		},
 	};
 
+	const addNewField = (data: any[]) => {
+		const response = data.map((item: any) => {
+			return { ...item, isWatched: false, isFavorite: false };
+		});
+
+		return response;
+	};
+
 	const fetchData = async (searchText: string) => {
 		setLoading(true);
 		try {
@@ -38,7 +46,8 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 				options
 			);
 			const responseData = await response.data.Search;
-			setMovies(responseData);
+			const finalResponse = addNewField(responseData);
+			setMovies(finalResponse);
 			setLoading(false);
 		} catch (error: any) {
 			setError(error.message);
