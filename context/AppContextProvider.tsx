@@ -8,6 +8,7 @@ interface IMovieContext {
 	error: string | null;
 	fetchData: (search: string) => void;
 	handleBookmarkClick: (movie: any[], id: string) => void;
+	handleWatchedClick: (movie: any[], id: string) => void;
 }
 
 const MovieContext: IMovieContext = {
@@ -17,6 +18,7 @@ const MovieContext: IMovieContext = {
 	error: null,
 	fetchData: () => {},
 	handleBookmarkClick: () => {},
+	handleWatchedClick: () => {},
 };
 export const AppContext = createContext(MovieContext);
 
@@ -60,7 +62,9 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 				options
 			);
 			const responseData = await response.data.Search;
+
 			const finalResponse = addNewField(responseData);
+
 			setMovies(finalResponse);
 			setLoading(false);
 		} catch (error: any) {
@@ -104,10 +108,27 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 					(movie) => movie.isFavorite === true
 				); // So i can remove unbookmarked movies in the list
 			} else {
-				finalBookmarked = movies.filter((movie) => movie.isFavorite === true);
+				finalBookmarked = newMovie.filter((movie) => movie.isFavorite === true);
 			}
 
 			setBookmarkedMovies(finalBookmarked);
+			localStorage.setItem(
+				'bookmarkedMovies',
+				JSON.stringify(bookmarkedMovies)
+			);
+		}
+	};
+
+	const handleWatchedClick = (movies: any[], id: string) => {
+		if (movies.length !== 0) {
+			const newMovie = movies.map((movie) => {
+				if (movie.imdbID === id) {
+					return { ...movie, isWatched: true };
+				}
+				return movie;
+			});
+
+			setBookmarkedMovies(newMovie);
 			localStorage.setItem(
 				'bookmarkedMovies',
 				JSON.stringify(bookmarkedMovies)
@@ -123,6 +144,7 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 				fetchData,
 				handleBookmarkClick,
 				bookmarkedMovies,
+				handleWatchedClick,
 			}}>
 			{children}
 		</AppContext.Provider>

@@ -17,6 +17,7 @@ import { FaRegBookmark } from 'react-icons/fa';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 import { useContext } from 'react';
 import { AppContext } from '@/context/AppContextProvider';
+import Rating from './Rating';
 
 type Props = {
 	loading?: boolean;
@@ -24,7 +25,7 @@ type Props = {
 	movies?: any[];
 };
 const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
-	const { handleBookmarkClick } = useContext(AppContext);
+	const { handleBookmarkClick, handleWatchedClick } = useContext(AppContext);
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -61,7 +62,12 @@ const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
 							<Divider />
 							<CardFooter>
 								<ButtonGroup spacing='2'>
-									<Button size='sm' variant='solid' colorScheme='blue'>
+									<Button
+										disabled={movie.isFavorite ? false : true}
+										onClick={() => handleWatchedClick(movies, movie.imdbID)}
+										size='sm'
+										variant='solid'
+										colorScheme='blue'>
 										{movie.isWatched ? 'Watched' : 'Not Watched'}
 									</Button>
 									<Button
@@ -76,6 +82,7 @@ const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
 										)}
 									</Button>
 								</ButtonGroup>
+								<Rating />
 							</CardFooter>
 						</Card>
 					))}
