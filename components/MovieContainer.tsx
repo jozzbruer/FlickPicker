@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { FaRegBookmark } from 'react-icons/fa';
 import { BsFillBookmarkFill } from 'react-icons/bs';
+import { useContext } from 'react';
+import { AppContext } from '@/context/AppContextProvider';
 
 type Props = {
 	loading?: boolean;
@@ -22,6 +24,7 @@ type Props = {
 	movies?: any[];
 };
 const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
+	const { handleBookmarkClick } = useContext(AppContext);
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -30,7 +33,6 @@ const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
 		return <div>Error: {error}</div>;
 	}
 
-	console.log(movies);
 	return (
 		<>
 			{movies?.length === 0 ? (
@@ -62,7 +64,11 @@ const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
 									<Button size='sm' variant='solid' colorScheme='blue'>
 										{movie.isWatched ? 'Watched' : 'Not Watched'}
 									</Button>
-									<Button size='sm' variant='ghost' colorScheme='blue'>
+									<Button
+										onClick={() => handleBookmarkClick(movies, movie.imdbID)}
+										size='sm'
+										variant='ghost'
+										colorScheme='blue'>
 										{movie.isFavorite ? (
 											<BsFillBookmarkFill />
 										) : (

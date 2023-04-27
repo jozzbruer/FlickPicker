@@ -3,10 +3,12 @@ import { TbMovie } from 'react-icons/tb';
 import { FaRegBookmark } from 'react-icons/fa';
 import MovieContainer from './MovieContainer';
 import { AppContext } from '@/context/AppContextProvider';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 const DisplayTabs: React.FC = () => {
-	const { loading, error, movies } = useContext(AppContext);
+	const { loading, error, movies, bookmarkedMovies } = useContext(AppContext);
+	console.log(bookmarkedMovies);
+
 	return (
 		<>
 			<Tabs>
@@ -21,10 +23,10 @@ const DisplayTabs: React.FC = () => {
 				</TabList>
 				<TabPanels>
 					<TabPanel>
-						<MovieContainer loading={loading} error={error!} movies={movies} />
+						<MovieContainer loading={loading} error={error!} movies={movies!} />
 					</TabPanel>
 					<TabPanel>
-						<MovieContainer />
+						<MovieContainer movies={bookmarkedMovies} />
 					</TabPanel>
 				</TabPanels>
 			</Tabs>
