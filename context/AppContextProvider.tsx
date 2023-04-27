@@ -9,6 +9,7 @@ interface IMovieContext {
 	fetchData: (search: string) => void;
 	handleBookmarkClick: (movie: any[], id: string) => void;
 	handleWatchedClick: (movie: any[], id: string) => void;
+	handleRatingClick: (movie: any[], id: string, rating: number) => void;
 }
 
 const MovieContext: IMovieContext = {
@@ -19,6 +20,7 @@ const MovieContext: IMovieContext = {
 	fetchData: () => {},
 	handleBookmarkClick: () => {},
 	handleWatchedClick: () => {},
+	handleRatingClick: () => {},
 };
 export const AppContext = createContext(MovieContext);
 
@@ -39,7 +41,7 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 
 	const addNewField = (data: any[]) => {
 		const response = data.map((item: any) => {
-			return { ...item, isWatched: false, isFavorite: false };
+			return { ...item, isWatched: false, isFavorite: false, rating: 1 };
 		});
 
 		return response;
@@ -72,6 +74,7 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 			setLoading(false);
 		}
 	};
+	// To prevent bookmarking twice
 	const checkIfAlreadyBookmarked = (array: any[], movieId: string) => {
 		if (movieId === '') {
 			return;
@@ -84,8 +87,7 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 		if (movies.length !== 0) {
 			const newMovie = movies.map((movie) => {
 				if (movie.imdbID === id) {
-					if (movie.isFavorite === false) return { ...movie, isFavorite: true };
-					else return { ...movie, isFavorite: false };
+					return { ...movie, isFavorite: true };
 				}
 				return movie;
 			});
@@ -119,11 +121,30 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 		}
 	};
 
+	// For watching
 	const handleWatchedClick = (movies: any[], id: string) => {
 		if (movies.length !== 0) {
 			const newMovie = movies.map((movie) => {
 				if (movie.imdbID === id) {
 					return { ...movie, isWatched: true };
+				}
+				return movie;
+			});
+
+			setBookmarkedMovies(newMovie);
+			localStorage.setItem(
+				'bookmarkedMovies',
+				JSON.stringify(bookmarkedMovies)
+			);
+		}
+	};
+
+	// For rating
+	const handleRatingClick = (movies: any[], id: string, rating: number) => {
+		if (movies.length !== 0) {
+			const newMovie = movies.map((movie) => {
+				if (movie.imdbID === id) {
+					return { ...movie, rating };
 				}
 				return movie;
 			});
@@ -145,6 +166,7 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 				handleBookmarkClick,
 				bookmarkedMovies,
 				handleWatchedClick,
+				handleRatingClick,
 			}}>
 			{children}
 		</AppContext.Provider>

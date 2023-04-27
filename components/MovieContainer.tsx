@@ -25,7 +25,8 @@ type Props = {
 	movies?: any[];
 };
 const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
-	const { handleBookmarkClick, handleWatchedClick } = useContext(AppContext);
+	const { handleBookmarkClick, handleWatchedClick, handleRatingClick } =
+		useContext(AppContext);
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -82,7 +83,15 @@ const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
 										)}
 									</Button>
 								</ButtonGroup>
-								<Rating />
+								{[1, 2, 3, 4, 5].map((starRating) => (
+									<Rating
+										key={starRating}
+										filled={starRating <= movie.rating}
+										onClick={() => {
+											handleRatingClick(movies, movie.imdbID, starRating);
+										}}
+									/>
+								))}
 							</CardFooter>
 						</Card>
 					))}

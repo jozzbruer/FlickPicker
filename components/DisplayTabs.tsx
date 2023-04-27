@@ -7,7 +7,6 @@ import { useContext, useEffect } from 'react';
 
 const DisplayTabs: React.FC = () => {
 	const { loading, error, movies, bookmarkedMovies } = useContext(AppContext);
-	console.log(bookmarkedMovies);
 
 	return (
 		<>
