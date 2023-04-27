@@ -11,7 +11,7 @@ import {
 import { useContext, useState } from 'react';
 
 const SearchBar: React.FC = () => {
-	const { fetchData, movies } = useContext(AppContext);
+	const { fetchData } = useContext(AppContext);
 	const [searchValue, setSearchValue] = useState<string>('');
 
 	const searchHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,7 +20,6 @@ const SearchBar: React.FC = () => {
 		setSearchValue('');
 	};
 
-	console.log(movies);
 	return (
 		<Flex
 			alignItems='center'
