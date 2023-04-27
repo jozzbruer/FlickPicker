@@ -1,5 +1,18 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import Image from 'next/image';
+import {
+	Box,
+	Button,
+	ButtonGroup,
+	Card,
+	CardBody,
+	CardFooter,
+	Divider,
+	Flex,
+	Heading,
+	Image,
+	SimpleGrid,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { FaRegBookmark } from 'react-icons/fa';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 
@@ -16,8 +29,8 @@ const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
-	console.log(movies);
 
+	console.log(movies);
 	return (
 		<>
 			{movies?.length === 0 ? (
@@ -27,29 +40,40 @@ const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
 					</Text>
 				</Flex>
 			) : (
-				<Flex>
+				<SimpleGrid columns={[1, 2, 3, 4, 5]} gap={2}>
 					{movies?.map((movie) => (
-						<Box key={movie.imdbID}>
-							<Flex>
+						<Card maxW='sm' key={movie.imdbID} mb='2rem'>
+							<CardBody textAlign='center'>
 								<Image
+									margin='0 auto'
 									src={movie.Poster}
 									alt={movie.Title}
-									width={300}
-									height={300}
-									quality={100}
+									borderRadius='lg'
 								/>
-								{movie.isFavorite ? (
-									<BsFillBookmarkFill />
-								) : (
-									<FaRegBookmark size='1.2rem' />
-								)}
-							</Flex>
-							<Text>
-								{movie.Title} - {movie.Year}
-							</Text>
-						</Box>
+								<Stack mt='6' spacing='3'>
+									<Heading size='md'>
+										{movie.Title} - {movie.Year}
+									</Heading>
+								</Stack>
+							</CardBody>
+							<Divider />
+							<CardFooter>
+								<ButtonGroup spacing='2'>
+									<Button size='sm' variant='solid' colorScheme='blue'>
+										{movie.isWatched ? 'Watched' : 'Not Watched'}
+									</Button>
+									<Button size='sm' variant='ghost' colorScheme='blue'>
+										{movie.isFavorite ? (
+											<BsFillBookmarkFill />
+										) : (
+											<FaRegBookmark />
+										)}
+									</Button>
+								</ButtonGroup>
+							</CardFooter>
+						</Card>
 					))}
-				</Flex>
+				</SimpleGrid>
 			)}
 		</>
 	);
