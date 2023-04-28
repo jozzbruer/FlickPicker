@@ -55,3 +55,8 @@ Movie Keeper can be deployed on Vercel using the hobby plan. To deploy the app, 
 # Contributing
 
 Contributions to Movie Keeper are welcome! If you have any suggestions or feature requests, please open an issue or submit a pull request.
+
+# Images
+![Screenshot 2023-04-27 at 5 19 02 PM](https://user-images.githubusercontent.com/21253158/235023228-3415143c-46be-4f68-aece-6c4fd4ca0ed5.png)
+![Screenshot 2023-04-27 at 5 19 25 PM](https://user-images.githubusercontent.com/21253158/235023249-466c6252-0bb9-49ec-8faa-58648e0e23e8.png)
+
