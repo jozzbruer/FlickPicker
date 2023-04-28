@@ -9,7 +9,7 @@ const Header: React.FC = () => {
 			alignItems='center'
 			width='100vw'
 			height='4rem auto'>
-			<Heading ml='2rem'>Movie name app here</Heading>
+			<Heading ml='2rem'>FlickPicker</Heading>
 			<ThemeSwitcher />
 		</Flex>
 	);
