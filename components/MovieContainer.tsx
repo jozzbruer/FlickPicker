@@ -25,8 +25,12 @@ type Props = {
 	movies?: any[];
 };
 const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
-	const { handleBookmarkClick, handleWatchedClick, handleRatingClick } =
-		useContext(AppContext);
+	const {
+		handleBookmarkClick,
+		handleWatchedClick,
+		handleRatingClick,
+		removeBookmarkedMovies,
+	} = useContext(AppContext);
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -72,7 +76,11 @@ const MovieContainer: React.FC<Props> = ({ loading, error, movies }) => {
 										{movie.isWatched ? 'Watched' : 'Not Watched'}
 									</Button>
 									<Button
-										onClick={() => handleBookmarkClick(movies, movie.imdbID)}
+										onClick={
+											!movie.isFavorite
+												? () => handleBookmarkClick(movies, movie.imdbID)
+												: () => removeBookmarkedMovies(movies, movie.imdbID)
+										}
 										size='sm'
 										variant='ghost'
 										colorScheme='blue'>

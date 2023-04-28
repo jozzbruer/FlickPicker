@@ -10,6 +10,7 @@ interface IMovieContext {
 	handleBookmarkClick: (movie: any[], id: string) => void;
 	handleWatchedClick: (movie: any[], id: string) => void;
 	handleRatingClick: (movie: any[], id: string, rating: number) => void;
+	removeBookmarkedMovies: (movie: any[], id: string) => void;
 }
 
 const MovieContext: IMovieContext = {
@@ -21,6 +22,7 @@ const MovieContext: IMovieContext = {
 	handleBookmarkClick: () => {},
 	handleWatchedClick: () => {},
 	handleRatingClick: () => {},
+	removeBookmarkedMovies: () => {},
 };
 export const AppContext = createContext(MovieContext);
 
@@ -156,6 +158,22 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 			);
 		}
 	};
+
+	//  remove bookmarked movies
+	const removeBookmarkedMovies = (movies: any[], id: string) => {
+		for (let i = 0; i < movies.length; i++) {
+			if (movies[i].imdbID === id) {
+				movies.splice(i, 1);
+				setBookmarkedMovies(movies);
+				localStorage.setItem(
+					'bookmarkedMovies',
+					JSON.stringify(bookmarkedMovies)
+				);
+				return true;
+			}
+		}
+		return false;
+	};
 	return (
 		<AppContext.Provider
 			value={{
@@ -167,6 +185,7 @@ const AppContextProvider: React.FC<Props> = ({ children }) => {
 				bookmarkedMovies,
 				handleWatchedClick,
 				handleRatingClick,
+				removeBookmarkedMovies,
 			}}>
 			{children}
 		</AppContext.Provider>
